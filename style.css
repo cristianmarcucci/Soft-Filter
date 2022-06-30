@@ -37,6 +37,10 @@
     margin: 0;
 }
 
+body{
+    background-color: var(--workspace-color);
+}
+
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen 
 and (min-device-width : 320px) 
@@ -58,7 +62,7 @@ and (min-width : 1224px) {
 
 .menu{
     height: 100%;
-    background-color: var(--menu-color);
+    background-color: var(--home-color);
     padding: 0.4rem;
     margin-bottom: 1rem;
 }
@@ -133,7 +137,7 @@ button.menuButton img{
 }
 
 main{
-    background-color: var(--workspace-color);
+    background-color: var(--home-color);
     color: var(--text-dim);
     display: grid;
     gap: 20px;
@@ -142,35 +146,80 @@ main{
 
 .toolsItem{
     display: grid;
-    padding: 20px;
-    grid-template-rows: 1fr 2fr;
+    padding: 5px;
+    grid-template-rows: 1fr 1.5fr;
 }
 
 .toolsHeader{
     height: 1.5rem;
     padding: 5px 10px;
-    border-radius: 3px;
+    border-radius: 0px 3px 3px 0;
 
 
     background-color: var(--panel-color);
 
     display: grid;
     gap: 10px;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr auto;
     align-items: center;
 }
 
+.toolsHeader span::before{
+    content: '►';
+    margin-right: 4px;
+    font-size: smaller;
+}
+
+.toolsHeader.ativo span::before{
+    content: '▼';
+    margin-right: 4px;
+    font-size: smaller;
+}
+
 .toolsHeader img{
-    width: 1rem;
+    max-width: 1rem;
+    max-height: 0.8rem;
 }
 
 .toolsSvgFilter{
     filter: invert(72%) sepia(0%) saturate(60%) hue-rotate(28deg) brightness(91%) contrast(97%);
-} 
+}
+
+
+.rangeBarContainer{
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
 
 .rangeBar{
     -webkit-appearance: none;
     appearance: none;
+    width: 90%;
+    height: 2px;
+    outline: none;
+    background: var(--text-dim);
+    align-self: center;
+    justify-self: center;
+
+}
+
+.rangeBar::-webkit-slider-thumb{
+
+    appearance: none;
+    background-color: var(--panel-color);
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 2px solid var(--text-dim);
+    cursor: pointer;
+}
+
+
+#imgDisplay{
+    display: grid;
+    align-items: center;
+    justify-items: center;
 }
 
 .p1{
