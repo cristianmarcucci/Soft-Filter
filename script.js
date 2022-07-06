@@ -1,5 +1,6 @@
 let imgDisplay = document.querySelector('#imgDisplay');
 let inputButton = document.querySelectorAll('.uploadButton');
+console.log('x',imgDisplay.clientWidth);
 
 inputButton.forEach((item) => {
     item.addEventListener('click', uploadPicture);
@@ -14,28 +15,59 @@ imgUploadInput.accept = 'image/jpeg, image/png';
 let imgHolder = document.createElement('canvas');
 let ctx = imgHolder.getContext('2d');
 let uploadedImg = document.createElement('img');
+let imgCaller = document.querySelector('.imgCaller');
 
 //Get image size
 let imgWidth;
 let imgHeight;
 
-//Functio that determines the size of the image displayed
+//Function that ajusts the size of the image displayed with canvas
 /*function imgSize(image){
-    if(image.width<500){
-        imgWidth = image.width;
-    } else {
-        imgWidth = 500;
+    imgWidth = imgDisplay.width;
+    imgHeight = imgCaller.height;
+
+    if(imgWidth>imgHeight){
+        imgHeight = image.height * Number(imgWidth/image.width)
+    } else{
+        imgHeight = ;
+        imgWidth = image.width * Number(imgHeight/image.height)
     }
     imgHeight = image.height * Number(imgWidth/image.width);
     console.log(imgWidth, imgHeight);
 }*/
 
-function imgDisplayFunction(){
-        //Display image properly
+function widthFunction(){
+    console.log('entrada.width',imgWidth, imgHeight)
+    if(imgWidth>imgHeight){
+        console.log('xx', window.innerWidth);
+        console.log('y', document.querySelector('.toolsMenu').clientWidth);
+        
+        return window.innerWidth - document.querySelector('.toolsMenu').clientWidth;
+    }else{
+        return (imgWidth*imgDisplay.clientHeight)/imgHeight;
+    }
+}
+
+function heightFunction(){
+    if(imgHeight>imgWidth){
+        return imgDisplay.clientHeight;
+    }else{
+        return (imgHeight*imgDisplay.clientWidth)/imgWidth;
+    }
+}
+
+document.addEventListener('resize', imgDisplayFunction);
+
+function imgDisplayFunction(uploadedImg){//Display image properly
+        
         /*imgSize(uploadedImg);
         imgHolder.width=imgWidth;
         imgHolder.height=imgHeight;*/
-        ctx.drawImage(uploadedImg, 0, 0, 500, 500);
+        imgWidth = uploadedImg.width;
+        imgHeight = uploadedImg.height;
+        imgHolder.width = widthFunction()
+        imgHolder.height = heightFunction();
+        ctx.drawImage(uploadedImg, 0, 0, widthFunction(), heightFunction());
 }
 
 //Upload the image file
@@ -46,9 +78,8 @@ imgUploadInput.addEventListener('change', function(){
         if(reader.result){
         uploadedImg.src = reader.result;
         imgHolder.appendChild(uploadedImg);
-        imgDisplay.appendChild(imgHolder);
-        console.log(uploadedImg);
-        imgDisplayFunction()
+        imgDisplay.replaceChild(imgHolder, imgCaller);
+        imgDisplayFunction(uploadedImg)
 
         } else{
             window.alert("Load unsuccessful! Try again.")

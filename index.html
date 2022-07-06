@@ -18,36 +18,36 @@
                 <p>Get the best of you</p>
             </div>
             <ul>
-                <li><button class="uploadButton">Upload</button></li>
-                <li><button class="downloadButton">Download</button></li>
-                <li><button class="resetButton">Reset</button></li>
+                <li><button class="uploadButton button">Upload</button></li>
+                <li><button class="downloadButton button">Download</button></li>
+                <li><button class="resetButton button">Reset</button></li>
             </ul>
         </nav>
     </header>
     <main>
-        <section class="toolsBar">
-            <div>
+        <section class="toolsMenu">
+            <div class="toolsSubMenu">
                 <div class="toolsHeader">
                     <span>Brightness</span>
-                    <img src="Images/icons/brightness1_icon.svg" alt="Brightness" class="toolsSvgFilter">
+                    <img src="Images/icons/brightness1_icon.svg" alt="Brightness" class="icon">
                 </div>
                 <input id="brightnessSlider" class="slider" type="range" min="0" max="200" value="100">
             </div>
-            <div>
+            <div class="toolsSubMenu">
                 <div class="toolsHeader">
                     <span>Contrast</span>
-                    <img src="Images/icons/contrast_icon.svg" alt="Contrast" class="toolsSvgFilter">
+                    <img src="Images/icons/contrast_icon.svg" alt="Contrast" class="icon">
                 </div>
                 <input id="contrastSlider" class="slider contrast" type="range" min="100" max="300" value="200">
             </div>
-            <div>
+            <div class="toolsSubMenu">
                 <div class="toolsHeader">
                     <span>Saturation</span>
-                    <img src="Images/icons/saturation_icon.svg" alt="Contrast" class="toolsSvgFilter">
+                    <img src="Images/icons/saturation_icon.svg" alt="Contrast" class="icon">
                 </div>
                 <input id="saturationSlider" class="slider" type="range" min="0" max="200" value="100">
             </div>
-            <div>
+            <div class="toolsSubMenu">
                 <div class="toolsHeader">
                     <span>Sepia</span>
                     <div>
@@ -58,7 +58,11 @@
             </div>
         </section>
         <section id="imgDisplay">
-                <button class="uploadButton">Upload</button>
+            <div class="imgCaller">
+                <img class="icon larger" src="Images/icons/image-icon.svg" alt="Image">
+                <p>Only images in:<br>.jpg<br>.png</p>
+                <button class="uploadButton button">Upload</button>
+            </div>             
         </section>
     </main>
     <footer>
