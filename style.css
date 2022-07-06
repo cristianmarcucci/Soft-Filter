@@ -1,0 +1,119 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,800;0,900;1,400&display=swap');
+
+:root{
+
+    --font-hover: #FFFFFF;
+    --font-commom: hsla(0,0,100%,0.6);
+    --font-dark: hsla(0,0,100%, 0.3);
+
+    --button-color: #ffffff20;
+    --button-color-hover: #ffffff30;
+
+    --tools-bar: #292C31;
+    --tools-highlight:#34363c;
+    --tools-hover: #424549;
+    --background-area: #171719;
+}
+
+*{
+    font-family: 'Poppins', sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    background-color: var(--workspace-color);
+}
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+/* Styles */
+}
+
+/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 999px) {
+
+header{
+    height: fit-content;
+    padding: 0.3rem;
+    margin-bottom: 10px;
+
+    background-color: var(--tools-bar);
+    color: var(--font-hover);
+}
+
+header nav{
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    margin: 0 10px;
+    align-items: center;
+}
+
+nav a{
+    height: 2rem;
+}
+
+nav .logoImg{
+    height: 100%;
+}
+
+nav .LogoSlogan{
+    display: grid;
+    grid-template-rows: auto auto;
+}
+
+nav .LogoSlogan p:first-child{
+    font-size: 1.2rem;
+    font-weight:600;
+}
+
+nav .LogoSlogan p:last-child{
+    font-size: 0.8rem;
+}
+
+nav ul{
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    align-self: flex-end;
+}
+
+nav ul li{
+    margin: 0.1rem;
+}
+
+nav ul li button{
+    min-width: 5rem;
+    height: 1.5rem;
+    border-radius: 2px;
+    border-style: none;
+    background-color: var(--button-color);
+    color: var(--font-commom);
+}
+
+nav ul li button:hover{
+    background-color: var(--button-color-hover);
+    color: var(--font-hover);
+}
+
+main{
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.sepiaIcon{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    
+    background: linear-gradient(to right, #d9d9d900,#D9D9D9)
+
+}
+
+}
