@@ -37,12 +37,12 @@ let imgHeight;
 }*/
 
 function widthFunction(){
-    console.log('entrada.width',imgWidth, imgHeight)
+    let scrollBar = window.innerWidth - document.querySelector('main').clientWidth
     if(imgWidth>imgHeight){
-        console.log('xx', window.innerWidth);
-        console.log('y', document.querySelector('.toolsMenu').clientWidth);
-        
-        return window.innerWidth - document.querySelector('.toolsMenu').clientWidth;
+        console.log('window', window.innerWidth);
+        console.log('toolsmenu', document.querySelector('.toolsMenu').clientWidth);
+        console.log('calculo', window.innerWidth - document.querySelector('.toolsMenu').clientWidth - 20)
+        return (window.innerWidth - document.querySelector('.toolsMenu').clientWidth - 20 - scrollBar);
     }else{
         return (imgWidth*imgDisplay.clientHeight)/imgHeight;
     }
@@ -58,14 +58,10 @@ function heightFunction(){
 
 document.addEventListener('resize', imgDisplayFunction);
 
-function imgDisplayFunction(uploadedImg){//Display image properly
-        
-        /*imgSize(uploadedImg);
-        imgHolder.width=imgWidth;
-        imgHolder.height=imgHeight;*/
+function imgDisplayFunction(){//Display image properly
         imgWidth = uploadedImg.width;
         imgHeight = uploadedImg.height;
-        imgHolder.width = widthFunction()
+        imgHolder.width = widthFunction();
         imgHolder.height = heightFunction();
         ctx.drawImage(uploadedImg, 0, 0, widthFunction(), heightFunction());
 }
@@ -79,7 +75,7 @@ imgUploadInput.addEventListener('change', function(){
         uploadedImg.src = reader.result;
         imgHolder.appendChild(uploadedImg);
         imgDisplay.replaceChild(imgHolder, imgCaller);
-        imgDisplayFunction(uploadedImg)
+        imgDisplayFunction()
 
         } else{
             window.alert("Load unsuccessful! Try again.")
@@ -102,7 +98,7 @@ function Filter(){
     let sepiaValue = sepiaSlider.value;
     ctx.filter = `brightness(${brightnessValue}%) contrast(${contrastValue}%) saturate(${saturationValue}%) sepia(${sepiaValue})`;
     //imgSize(uploadedImg);
-    ctx.drawImage(uploadedImg, 0, 0, 500, 500);
+    ctx.drawImage(uploadedImg, 0, 0, widthFunction(), heightFunction());
 }
 
 //Brightness ajustment
@@ -152,7 +148,7 @@ function resetImg(){
     if(imgHolder.hasChildNodes()){//Checks if there is an image uploaded
         ctx.filter = `brightness(100%) contrast(100%) saturate(100%) sepia(0)`;
         //imgSize(uploadedImg);
-        ctx.drawImage(uploadedImg, 0, 0, 500, 500);
+        ctx.drawImage(uploadedImg, 0, 0, widthFunction(), heightFunction());
 
         let resetSlide = document.querySelectorAll(".slider")
         resetSlide.forEach(function(item){
