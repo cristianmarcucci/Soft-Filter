@@ -1,6 +1,5 @@
 let imgDisplay = document.querySelector('#imgDisplay');
 let inputButton = document.querySelectorAll('.uploadButton');
-console.log('x',imgDisplay.clientWidth);
 
 inputButton.forEach((item) => {
     item.addEventListener('click', uploadPicture);
@@ -21,28 +20,14 @@ let imgCaller = document.querySelector('.imgCaller');
 let imgWidth;
 let imgHeight;
 
-//Function that ajusts the size of the image displayed with canvas
-/*function imgSize(image){
-    imgWidth = imgDisplay.width;
-    imgHeight = imgCaller.height;
-
-    if(imgWidth>imgHeight){
-        imgHeight = image.height * Number(imgWidth/image.width)
-    } else{
-        imgHeight = ;
-        imgWidth = image.width * Number(imgHeight/image.height)
-    }
-    imgHeight = image.height * Number(imgWidth/image.width);
-    console.log(imgWidth, imgHeight);
-}*/
-
 function widthFunction(){
-    let scrollBar = window.innerWidth - document.querySelector('main').clientWidth
+    
     if(imgWidth>imgHeight){
-        console.log('window', window.innerWidth);
-        console.log('toolsmenu', document.querySelector('.toolsMenu').clientWidth);
-        console.log('calculo', window.innerWidth - document.querySelector('.toolsMenu').clientWidth - 20)
-        return (window.innerWidth - document.querySelector('.toolsMenu').clientWidth - 20 - scrollBar);
+        let paddingLeft = parseInt(window.getComputedStyle(imgDisplay).paddingLeft);
+        let paddingRight = parseInt(window.getComputedStyle(imgDisplay).paddingRight);
+        let scrollBar = window.innerWidth - document.querySelector('main').clientWidth;
+
+        return (window.innerWidth - document.querySelector('.toolsMenu').clientWidth - paddingLeft - paddingRight - scrollBar);
     }else{
         return (imgWidth*imgDisplay.clientHeight)/imgHeight;
     }
@@ -50,21 +35,25 @@ function widthFunction(){
 
 function heightFunction(){
     if(imgHeight>imgWidth){
-        return imgDisplay.clientHeight;
+        let menuMarginBottom = parseInt(window.getComputedStyle(document.querySelector('header')).marginBottom);
+        let footerMarginTop = parseInt(window.getComputedStyle(document.querySelector('footer')).marginTop);
+        return (window.innerHeight - document.querySelector('header').clientHeight - menuMarginBottom - footerMarginTop - document.querySelector('footer').clientHeight);
     }else{
         return (imgHeight*imgDisplay.clientWidth)/imgWidth;
     }
 }
 
-document.addEventListener('resize', imgDisplayFunction);
-
 function imgDisplayFunction(){//Display image properly
         imgWidth = uploadedImg.width;
         imgHeight = uploadedImg.height;
-        imgHolder.width = widthFunction();
-        imgHolder.height = heightFunction();
+        imgHolder.width = widthFunction();//Ajust the image width to the screen size
+        imgHolder.height = heightFunction();//Ajuste the image height to the screen size
+        Filter();
+        console.log(ctx.filter);
         ctx.drawImage(uploadedImg, 0, 0, widthFunction(), heightFunction());
 }
+
+window.addEventListener('resize', imgDisplayFunction);//Avoid horizontal scroll bar
 
 //Upload the image file
 imgUploadInput.addEventListener('change', function(){
@@ -74,7 +63,9 @@ imgUploadInput.addEventListener('change', function(){
         if(reader.result){
         uploadedImg.src = reader.result;
         imgHolder.appendChild(uploadedImg);
-        imgDisplay.replaceChild(imgHolder, imgCaller);
+        if(imgCaller.parentElement){
+            imgDisplay.replaceChild(imgHolder, imgCaller);
+        }
         imgDisplayFunction()
 
         } else{
@@ -96,26 +87,26 @@ function Filter(){
     let contrastValue = contrastSlider.value;
     let saturationValue = saturationSlider.value;
     let sepiaValue = sepiaSlider.value;
-    ctx.filter = `brightness(${brightnessValue}%) contrast(${contrastValue}%) saturate(${saturationValue}%) sepia(${sepiaValue})`;
-    //imgSize(uploadedImg);
-    ctx.drawImage(uploadedImg, 0, 0, widthFunction(), heightFunction());
+    return ctx.filter = `brightness(${brightnessValue}%) contrast(${contrastValue}%) saturate(${saturationValue}%) sepia(${sepiaValue})`;
+    //ctx.drawImage(uploadedImg, 0, 0, widthFunction(), heightFunction());
+    //imgDisplayFunction();
 }
 
 //Brightness ajustment
 let brightnessSlider = document.querySelector('#brightnessSlider');
-brightnessSlider.addEventListener('input', Filter);
+brightnessSlider.addEventListener('input', imgDisplayFunction);
 
 //Contrast ajustment
 let contrastSlider = document.querySelector('#contrastSlider');
-contrastSlider.addEventListener('input', Filter);
+contrastSlider.addEventListener('input', imgDisplayFunction);
 
 //Saturation ajustment
 let saturationSlider = document.querySelector('#saturationSlider');
-saturationSlider.addEventListener('input', Filter);
+saturationSlider.addEventListener('input', imgDisplayFunction);
 
 //Sepia ajustment
 let sepiaSlider = document.querySelector('#sepiaSlider');
-sepiaSlider.addEventListener('input', Filter);
+sepiaSlider.addEventListener('input', imgDisplayFunction);
 
 //Download modified image
 let downloadButton = document.querySelector('.downloadButton');
@@ -146,23 +137,19 @@ let resetButton = document.querySelector('.resetButton');
 function resetImg(){
     
     if(imgHolder.hasChildNodes()){//Checks if there is an image uploaded
-        ctx.filter = `brightness(100%) contrast(100%) saturate(100%) sepia(0)`;
-        //imgSize(uploadedImg);
-        ctx.drawImage(uploadedImg, 0, 0, widthFunction(), heightFunction());
-
         let resetSlide = document.querySelectorAll(".slider")
         resetSlide.forEach(function(item){
                if(item.classList.contains('sepia')){
                     item.value=0;
-               } else if(item.classList.contains('contrast')) {
-                item.value=200;
                } else{
-                item.value=100;
+                    item.value=100;
                }
         })
     }else{
         window.alert("No picture uploaded")
-    }        
+    }   
+    
+    imgDisplayFunction();
 }
 
 resetButton.addEventListener('click', resetImg)
