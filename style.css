@@ -177,8 +177,22 @@ main{
     cursor: pointer;
 }
 
+.slider::-moz-range-thumb{
+    appearance: none;
+    width: 0.8rem;
+    height: 0.8rem;
+    background-color: var(--tools-bar);
+    border-radius: 50%;
+    border: 2px solid var(--font-dark);
+    cursor: pointer;
+}
+
 
 .slider::-webkit-slider-thumb:hover{
+    border: 2px solid var(--font-commom);
+}
+
+.slider::-moz-range-thumb:hover{
     border: 2px solid var(--font-commom);
 }
 
@@ -208,26 +222,15 @@ main{
     font-size: 0.8rem;
 }
 
+
+
 .larger{
     height: 2rem;
 }
 
 footer{
-    height: 3vh;
-    width: 100%;
-    margin-top: 1vh;
-    background-color: var(--tools-bar);
-    color: var(--font-dark);
-    font-size: 0.6rem;
-}
-    
-footer span{
-    margin-left: 10px;
-}
-
-footer a{
-    text-decoration: none;
-    color: var(--font-dark);
+    margin-top: 10px;
+    height: 10px;
 }
 
 }

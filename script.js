@@ -1,3 +1,14 @@
+//Make sure the slides are reseted when page loaded
+let resetSlide = document.querySelectorAll(".slider")
+resetSlide.forEach(function(item){
+       if(item.classList.contains('sepia')){
+            item.value=0;
+       } else{
+            item.value=100;
+       }
+})
+
+//Upload the image
 let imgDisplay = document.querySelector('#imgDisplay');
 let inputButton = document.querySelectorAll('.uploadButton');
 
@@ -25,9 +36,8 @@ function widthFunction(){
     if(imgWidth>imgHeight){
         let paddingLeft = parseInt(window.getComputedStyle(imgDisplay).paddingLeft);
         let paddingRight = parseInt(window.getComputedStyle(imgDisplay).paddingRight);
-        let scrollBar = window.innerWidth - document.querySelector('main').clientWidth;
-
-        return (window.innerWidth - document.querySelector('.toolsMenu').clientWidth - paddingLeft - paddingRight - scrollBar);
+        let scrollBar =  document.querySelector('main').clientWidth - document.body.offsetWidth;
+        return (document.body.offsetWidth - document.querySelector('.toolsMenu').clientWidth - paddingLeft - paddingRight - scrollBar);
     }else{
         return (imgWidth*imgDisplay.clientHeight)/imgHeight;
     }
@@ -37,7 +47,7 @@ function heightFunction(){
     if(imgHeight>imgWidth){
         let menuMarginBottom = parseInt(window.getComputedStyle(document.querySelector('header')).marginBottom);
         let footerMarginTop = parseInt(window.getComputedStyle(document.querySelector('footer')).marginTop);
-        return (window.innerHeight - document.querySelector('header').clientHeight - menuMarginBottom - footerMarginTop - document.querySelector('footer').clientHeight);
+        return (document.body.offsetHeight - document.querySelector('header').clientHeight - menuMarginBottom - footerMarginTop - document.querySelector('footer').clientHeight);
     }else{
         return (imgHeight*imgDisplay.clientWidth)/imgWidth;
     }
@@ -49,8 +59,8 @@ function imgDisplayFunction(){//Display image properly
         imgHolder.width = widthFunction();//Ajust the image width to the screen size
         imgHolder.height = heightFunction();//Ajuste the image height to the screen size
         Filter();
-        console.log(ctx.filter);
         ctx.drawImage(uploadedImg, 0, 0, widthFunction(), heightFunction());
+
 }
 
 window.addEventListener('resize', imgDisplayFunction);//Avoid horizontal scroll bar
@@ -66,7 +76,8 @@ imgUploadInput.addEventListener('change', function(){
         if(imgCaller.parentElement){
             imgDisplay.replaceChild(imgHolder, imgCaller);
         }
-        imgDisplayFunction()
+        imgDisplayFunction();
+        console.log(uploadedImg.width)
 
         } else{
             window.alert("Load unsuccessful! Try again.")
@@ -88,8 +99,6 @@ function Filter(){
     let saturationValue = saturationSlider.value;
     let sepiaValue = sepiaSlider.value;
     return ctx.filter = `brightness(${brightnessValue}%) contrast(${contrastValue}%) saturate(${saturationValue}%) sepia(${sepiaValue})`;
-    //ctx.drawImage(uploadedImg, 0, 0, widthFunction(), heightFunction());
-    //imgDisplayFunction();
 }
 
 //Brightness ajustment
@@ -137,7 +146,6 @@ let resetButton = document.querySelector('.resetButton');
 function resetImg(){
     
     if(imgHolder.hasChildNodes()){//Checks if there is an image uploaded
-        let resetSlide = document.querySelectorAll(".slider")
         resetSlide.forEach(function(item){
                if(item.classList.contains('sepia')){
                     item.value=0;
