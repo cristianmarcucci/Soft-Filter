@@ -77,7 +77,6 @@ imgUploadInput.addEventListener('change', function(){
             imgDisplay.replaceChild(imgHolder, imgCaller);
         }
         imgDisplayFunction();
-        console.log(uploadedImg.width)
 
         } else{
             window.alert("Load unsuccessful! Try again.")
