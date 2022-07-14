@@ -2,18 +2,18 @@
 let resetSlide = document.querySelectorAll(".slider")
 resetSlide.forEach(function(item){
        if(item.classList.contains('sepia')){
-            item.value=0;
+            item.value=0;//only sepia's default value is equal 0
        } else{
-            item.value=100;
+            item.value=100;//Brightness, Contrast and Saturation starts from 100
        }
 })
 
-//Upload the image
+//Manipulate DOM to upload the image
 let imgDisplay = document.querySelector('#imgDisplay');
 let inputButton = document.querySelectorAll('.uploadButton');
 
 inputButton.forEach((item) => {
-    item.addEventListener('click', uploadPicture);
+    item.addEventListener('click', uploadPicture);//By clicking the Upload Button, an file input is 'clicked'
 });
 
 //Creating a file input
@@ -30,6 +30,10 @@ let imgCaller = document.querySelector('.imgCaller');
 //Get image size
 let imgWidth;
 let imgHeight;
+
+//Get the size available for the uploaded image in the screen 
+let availableWidth = parseInt(window.getComputedStyle(imgDisplay).width);
+let availableHeight = parseInt(window.getComputedStyle(imgDisplay).height);
 
 function widthFunction(){
     
@@ -56,6 +60,7 @@ function heightFunction(){
 function imgDisplayFunction(){//Display image properly
         imgWidth = uploadedImg.width;
         imgHeight = uploadedImg.height;
+
         imgHolder.width = widthFunction();//Ajust the image width to the screen size
         imgHolder.height = heightFunction();//Ajuste the image height to the screen size
         Filter();

@@ -28,7 +28,7 @@ body{
 }
 
 /* Smartphones (portrait and landscape) ----------- */
-@media only screen and (max-device-width : 719px) {
+@media only screen and (max-device-width : 720px) {
 /* Styles */
 
 body{
@@ -236,7 +236,7 @@ footer{
 
 /* Desktops and laptops ----------- */
 @media only screen 
-and (min-width : 720px) {
+and (min-device-width : 720px) {
 
 header{
     height: fit-content;
@@ -309,6 +309,7 @@ main{
 
 .toolsMenu{
     width: 15vw;
+    min-width: 135px;
     max-height: 300px;
     display: grid;
     grid-template-rows: repeat(4, auto);
