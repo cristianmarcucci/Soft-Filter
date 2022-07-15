@@ -30,36 +30,57 @@ let imgCaller = document.querySelector('.imgCaller');
 //Get image size
 let imgWidth;
 let imgHeight;
+let widthProportion;
+let heightProportion;
+let availableWidth;
+let availableHeight;
 
-//Get the size available for the uploaded image in the screen 
-let availableWidth = parseInt(window.getComputedStyle(imgDisplay).width);
-let availableHeight = parseInt(window.getComputedStyle(imgDisplay).height);
-
+//Display canvas image properly, avoiding horizontal scroll 
 function widthFunction(){
-    
-    if(imgWidth>imgHeight){
-        let paddingLeft = parseInt(window.getComputedStyle(imgDisplay).paddingLeft);
-        let paddingRight = parseInt(window.getComputedStyle(imgDisplay).paddingRight);
-        let scrollBar =  document.querySelector('main').clientWidth - document.body.offsetWidth;
-        return (document.body.offsetWidth - document.querySelector('.toolsMenu').clientWidth - paddingLeft - paddingRight - scrollBar);
-    }else{
+
+    if(screen.width<720){//Width rules the display in small devices
+        imgDisplay.style.padding = 0;
+        return window.innerWidth;
+    }else if(availableHeight<300){
         return (imgWidth*imgDisplay.clientHeight)/imgHeight;
+    } else{
+        if(widthProportion>=heightProportion){//The less space available rules the size
+            return availableWidth;
+        }else{
+            return (imgWidth*imgDisplay.clientHeight)/imgHeight;
+        }
     }
+
 }
 
+//Display canvas image properly, avoiding vertical scroll on big screens
 function heightFunction(){
-    if(imgHeight>imgWidth){
-        let menuMarginBottom = parseInt(window.getComputedStyle(document.querySelector('header')).marginBottom);
-        let footerMarginTop = parseInt(window.getComputedStyle(document.querySelector('footer')).marginTop);
-        return (document.body.offsetHeight - document.querySelector('header').clientHeight - menuMarginBottom - footerMarginTop - document.querySelector('footer').clientHeight);
-    }else{
+
+    if(screen.width<720){
         return (imgHeight*imgDisplay.clientWidth)/imgWidth;
+    }else if(availableHeight<300){//Minimum height
+        return 300;
+    } else{
+        if(widthProportion>=heightProportion){//The less space available rules the size
+            return (imgHeight*imgDisplay.clientWidth)/imgWidth;           
+        }else{
+            return availableHeight;
+        } 
     }
 }
 
 function imgDisplayFunction(){//Display image properly
         imgWidth = uploadedImg.width;
         imgHeight = uploadedImg.height;
+
+        let paddingLeft = parseInt(window.getComputedStyle(imgDisplay).paddingLeft);
+        let paddingRight = parseInt(window.getComputedStyle(imgDisplay).paddingRight);
+        availableWidth = (window.innerWidth - document.querySelector('.toolsMenu').clientWidth - paddingLeft - paddingRight)
+        widthProportion = imgWidth/availableWidth;
+        
+        let menuMarginBottom = parseInt(window.getComputedStyle(document.querySelector('header')).marginBottom);
+        availableHeight =  window.innerHeight - document.querySelector('header').clientHeight - menuMarginBottom;
+        heightProportion = imgHeight/availableHeight
 
         imgHolder.width = widthFunction();//Ajust the image width to the screen size
         imgHolder.height = heightFunction();//Ajuste the image height to the screen size
@@ -68,27 +89,30 @@ function imgDisplayFunction(){//Display image properly
 
 }
 
-window.addEventListener('resize', imgDisplayFunction);//Avoid horizontal scroll bar
+//Ajust the image size, when the screen is resized
+window.addEventListener('resize', imgDisplayFunction);
 
 //Upload the image file
 imgUploadInput.addEventListener('change', function(){
     let reader = new FileReader();
-
-    reader.addEventListener('load', ()=> {
-        if(reader.result){
-        uploadedImg.src = reader.result;
-        imgHolder.appendChild(uploadedImg);
-        if(imgCaller.parentElement){
-            imgDisplay.replaceChild(imgHolder, imgCaller);
-        }
-        imgDisplayFunction();
+    
+    reader.addEventListener('load', event=> {
+        if(event.target.result){
+            uploadedImg.src = event.target.result;
+            setTimeout(function(){     //ensure that there was enough time to render the image   
+                imgHolder.appendChild(uploadedImg);
+                if(imgCaller.parentElement){
+                    imgDisplay.replaceChild(imgHolder, imgCaller);
+                }
+                imgDisplayFunction();
+            }, 500);
 
         } else{
             window.alert("Load unsuccessful! Try again.")
         }
     })
     reader.readAsDataURL(this.files[0]);
-})
+ });
 
 
 //Upload button calls the file input
