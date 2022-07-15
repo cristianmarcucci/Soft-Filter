@@ -47,7 +47,7 @@ function widthFunction(){
         if(widthProportion>=heightProportion){//The less space available rules the size
             return availableWidth;
         }else{
-            return (imgWidth*imgDisplay.clientHeight)/imgHeight;
+            return imgWidth/heightProportion
         }
     }
 
@@ -57,12 +57,12 @@ function widthFunction(){
 function heightFunction(){
 
     if(screen.width<720){
-        return (imgHeight*imgDisplay.clientWidth)/imgWidth;
+        return imgHeight/widthProportion;
     }else if(availableHeight<300){//Minimum height
         return 300;
     } else{
         if(widthProportion>=heightProportion){//The less space available rules the size
-            return (imgHeight*imgDisplay.clientWidth)/imgWidth;           
+            return imgHeight/widthProportion;           
         }else{
             return availableHeight;
         } 
@@ -80,13 +80,12 @@ function imgDisplayFunction(){//Display image properly
         
         let menuMarginBottom = parseInt(window.getComputedStyle(document.querySelector('header')).marginBottom);
         availableHeight =  window.innerHeight - document.querySelector('header').clientHeight - menuMarginBottom;
-        heightProportion = imgHeight/availableHeight
+        heightProportion = imgHeight/availableHeight;
 
         imgHolder.width = widthFunction();//Ajust the image width to the screen size
         imgHolder.height = heightFunction();//Ajuste the image height to the screen size
         Filter();
         ctx.drawImage(uploadedImg, 0, 0, widthFunction(), heightFunction());
-
 }
 
 //Ajust the image size, when the screen is resized
