@@ -114,12 +114,12 @@ main{
 
 .toolsSubMenu{
     display: grid;
-    grid-template-rows: 1.5rem 2.2rem;
+    grid-template-rows: 1.5rem auto;
 }
 
 .toolsHeader{
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: 3px;
     padding: 2px 8px;
@@ -129,6 +129,17 @@ main{
     color: var(--font-commom);
     font-size: 0.9rem;
 }
+
+.toolsHeader::before{
+    content: '▶';
+    margin-right: 2px;
+}
+
+.active::before{
+    content: '▼';
+    margin-right: 2px;
+}
+
 
 .toolsHeader:hover{
     background-color: var(--tools-hover);
@@ -145,6 +156,14 @@ main{
     background: linear-gradient(to right, #d9d9d900,#D9D9D9)
 }
 
+
+.toolsSlider{
+    height: 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .slider{
     appearance: none;
     width: 90%;
@@ -154,6 +173,7 @@ main{
     align-self: center;
     justify-self: center;
 }
+
 
 .slider::-webkit-slider-thumb{
     appearance: none;
@@ -211,15 +231,12 @@ main{
     font-size: 0.8rem;
 }
 
-
-
 .larger{
     height: 2rem;
 }
 
-footer{
-    margin-top: 10px;
-    height: 10px;
+.mobile-hide{
+    display: none;
 }
 
 }
@@ -349,6 +366,13 @@ main{
     width: 12px;
     height: 12px;
     background: linear-gradient(to right, #d9d9d900,#D9D9D9)
+}
+
+.toolsSlider{
+    height: 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .slider{

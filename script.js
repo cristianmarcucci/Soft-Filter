@@ -57,7 +57,8 @@ function widthFunction(){
 function heightFunction(){
 
     if(screen.width<720){
-        return imgHeight/widthProportion;
+        console.log(imgHeight/widthProportion)
+        return (imgHeight*imgDisplay.clientWidth)/imgWidth;
     }else if(availableHeight<300){//Minimum height
         return 300;
     } else{
@@ -188,3 +189,16 @@ function resetImg(){
 }
 
 resetButton.addEventListener('click', resetImg)
+
+
+//Accordion list in mobile only
+const accordionList = document.querySelectorAll('.toolsHeader');
+
+function activeAccordion(){
+    this.classList.toggle('active')
+    this.nextElementSibling.classList.toggle('mobile-hide');
+}
+
+accordionList.forEach((item) =>{
+    item.addEventListener('click', activeAccordion);
+})
